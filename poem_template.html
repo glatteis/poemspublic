@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            body {
+                font-size: 18px;
+            }
+        </style>
+    </head>
+    <body>
+        {{ .PoemHTML }}
+        <br><br>
+        <i>{{ .Title }}</i> von {{ .Author }}
+        {{ if .YearWritten }}
+            (entstanden {{ .YearWritten }})
+        {{ else if .YearPublished }}
+            (erschienen {{ .YearPublished }})
+        {{ end }}
+        <small>
+            {{ range .References }}
+                <br>
+                {{ . }}
+            {{ end }}
+        </small>
+    </body>
+</html>

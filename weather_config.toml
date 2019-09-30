@@ -1,0 +1,11 @@
+# App ID of OpenWeatherMap
+OpenWeatherAppID = ""
+
+# OpenWeatherMap weather ID for the standard location. Look up at http://bulk.openweathermap.org/sample/city.list.json.gz
+StandardLocationID = ""
+
+# OpenWeatherMap unit type (if none other configured in request)
+StandardUnitType = "metric"
+
+# standard OpenWeatherMap language (if none other configured in request)
+StandardLanguage = "en"
