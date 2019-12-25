@@ -9,7 +9,7 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/glatteis/poemspublic/imggenerator"
+	"github.com/glatteis/poems/imggenerator"
 )
 
 var weatherTemplate *template.Template

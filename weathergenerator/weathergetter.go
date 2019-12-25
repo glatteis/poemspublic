@@ -121,12 +121,17 @@ func getWeatherInfo(locationID string, units string, language string) (*weatherA
 	humidities := make([]float64, numForecasts)
 	rains := make([]float64, numForecasts)
 
+	rainExists := false
+
 	for i, f := range values.Forecasts {
 		dateTimes[i] = time.Unix(f.DateTime, 0)
 		minTemps[i] = float64(f.TempValues.MinTemperature)
 		maxTemps[i] = float64(f.TempValues.MaxTemperature)
 		humidities[i] = float64(f.TempValues.Humidity)
 		rains[i] = float64(f.Rain.RainVolume)
+		if rains[i] != 0 {
+			rainExists = true
+		}
 	}
 
 	var tempUnit string
@@ -196,7 +201,7 @@ func getWeatherInfo(locationID string, units string, language string) (*weatherA
 	buffer := bytes.NewBuffer([]byte{})
 	err = temperatureGraph.Render(chart.PNG, buffer)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("Error while drawing temperature graph: " + err.Error())
 	}
 	graphFiles[0].Write(buffer.Bytes())
 
@@ -228,36 +233,41 @@ func getWeatherInfo(locationID string, units string, language string) (*weatherA
 	buffer = bytes.NewBuffer([]byte{})
 	err = temperatureGraph24h.Render(chart.PNG, buffer)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("Error while drawing 24h temperature graph: " + err.Error())
 	}
 	graphFiles[1].Write(buffer.Bytes())
 
-	rainGraph := chart.Chart{
-		XAxis: chart.XAxis{
-			Style:          chart.StyleShow(),
-			ValueFormatter: dateFormatter,
-		},
-		YAxis: chart.YAxis{
-			Name:      "mm",
-			NameStyle: chart.StyleShow(),
-			Style:     chart.StyleShow(),
-		},
-		Series: []chart.Series{
-			chart.TimeSeries{
-				XValues: dateTimes,
-				YValues: rains,
-				Style:   lineStyle,
+	if rainExists {
+		rainGraph := chart.Chart{
+			XAxis: chart.XAxis{
+				Style:          chart.StyleShow(),
+				ValueFormatter: dateFormatter,
 			},
-		},
-		Width:  chartWidth,
-		Height: 200,
+			YAxis: chart.YAxis{
+				Name:      "mm",
+				NameStyle: chart.StyleShow(),
+				Style:     chart.StyleShow(),
+			},
+			Series: []chart.Series{
+				chart.TimeSeries{
+					XValues: dateTimes,
+					YValues: rains,
+					Style:   lineStyle,
+				},
+			},
+			Width:  chartWidth,
+			Height: 200,
+		}
+		buffer = bytes.NewBuffer([]byte{})
+		err = rainGraph.Render(chart.PNG, buffer)
+		if err != nil {
+			return nil, errors.New("Error while drawing rain graph: " + err.Error())
+		}
+		graphFiles[2].Write(buffer.Bytes())
+	} else {
+		sunflower, _ := ioutil.ReadFile("resources/sunflower.png")
+		graphFiles[2].Write(sunflower)
 	}
-	buffer = bytes.NewBuffer([]byte{})
-	err = rainGraph.Render(chart.PNG, buffer)
-	if err != nil {
-		return nil, err
-	}
-	graphFiles[2].Write(buffer.Bytes())
 
 	humidityGraph := chart.Chart{
 		XAxis: chart.XAxis{
@@ -282,7 +292,7 @@ func getWeatherInfo(locationID string, units string, language string) (*weatherA
 	buffer = bytes.NewBuffer([]byte{})
 	err = humidityGraph.Render(chart.PNG, buffer)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("Error while drawing humidity graph: " + err.Error())
 	}
 	graphFiles[3].Write(buffer.Bytes())
 
@@ -294,18 +304,25 @@ func getWeatherInfo(locationID string, units string, language string) (*weatherA
 		f.TempValues.RoundedTemperature = int(f.TempValues.Temperature)
 	}
 
+	isInRange := func(x int, low int, high int) bool {
+		return x >= low && x < high
+	}
+
 	forecastLength := 4
 	forecastsAdded := 0
 	values.SelectedForecasts = make([]forecast, forecastLength)
 	for _, f := range values.Forecasts {
+		fmt.Println(f.DateTimeGolang.Hour())
 		if forecastLength == forecastsAdded {
 			break
 		}
-		if f.DateTimeGolang.Hour() == 8 || f.DateTimeGolang.Hour() == 14 || f.DateTimeGolang.Hour() == 20 {
+		if isInRange(f.DateTimeGolang.Hour(), 6, 9) || isInRange(f.DateTimeGolang.Hour(), 12, 15) || isInRange(f.DateTimeGolang.Hour(), 19, 22) {
 			values.SelectedForecasts[forecastsAdded] = f
 			forecastsAdded++
 		}
 	}
+
+	fmt.Println(values.SelectedForecasts)
 
 	return &values, nil
 }
