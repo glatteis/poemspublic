@@ -5,10 +5,14 @@ github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 h1:DACJavvAHhabrF0
 github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0/go.mod h1:E/TSTwGwJL78qG/PmXZO1EjYhfJinVAhrmmHX6Z8B9k=
 github.com/goodsign/monday v0.0.0-20190708072354-9bcb46af8546 h1:G9dgGvhJDZptwUwQbjJsJGiD4fWnHZil/i40Koj7toI=
 github.com/goodsign/monday v0.0.0-20190708072354-9bcb46af8546/go.mod h1:u85tpSNZDCgHeHt42TxSKGXsjpz+bhxvRbSkLpewiaA=
+github.com/goodsign/monday v0.0.0-20191222141057-7672e75c119d h1:5URHmFBBzalNLBkj/RSv5NG2rnojpuA1doVnE+rrx/I=
+github.com/goodsign/monday v0.0.0-20191222141057-7672e75c119d/go.mod h1:u85tpSNZDCgHeHt42TxSKGXsjpz+bhxvRbSkLpewiaA=
 github.com/patrickmn/go-cache v2.1.0+incompatible h1:HRMgzkcYKYpi3C8ajMPV8OFXaaRUnok+kx1WdO15EQc=
 github.com/patrickmn/go-cache v2.1.0+incompatible/go.mod h1:3Qf8kWWT7OJRJbdiICTKqZju1ZixQ/KpMGzzAfe6+WQ=
 github.com/wcharczuk/go-chart v2.0.1+incompatible h1:0pz39ZAycJFF7ju/1mepnk26RLVLBCWz1STcD3doU0A=
 github.com/wcharczuk/go-chart v2.0.1+incompatible/go.mod h1:PF5tmL4EIx/7Wf+hEkpCqYi5He4u90sw+0+6FhrryuE=
 golang.org/x/image v0.0.0-20190829233526-b3c06291d021 h1:j6QOxNFMpEL1wIQX6TUdBPNfGZKmBOJS/vfSm8a7tdM=
 golang.org/x/image v0.0.0-20190829233526-b3c06291d021/go.mod h1:FeLwcggjj3mMvU+oOTbSwawSJRM1uh48EjtB4UJZlP0=
+golang.org/x/image v0.0.0-20191214001246-9130b4cfad52 h1:2fktqPPvDiVEEVT/vSTeoUPXfmRxRaGy6GU8jypvEn0=
+golang.org/x/image v0.0.0-20191214001246-9130b4cfad52/go.mod h1:FeLwcggjj3mMvU+oOTbSwawSJRM1uh48EjtB4UJZlP0=
 golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
