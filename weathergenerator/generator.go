@@ -59,6 +59,10 @@ func GenerateWeather(locationID string, units string, language string) ([]byte, 
 
 	err = imggenerator.GenerateImageFromHTML(tempFile, tempImage)
 
+	if err != nil {
+		return nil, err
+	}
+
 	bytes := imggenerator.PNGToBinary(tempImage)
 	return bytes, nil
 }

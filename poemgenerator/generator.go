@@ -40,11 +40,15 @@ func init() {
 func GeneratePoem(name string) ([]byte, error) {
 	file, err := os.Open(path.Join("data/", name))
 	if err != nil {
-		return nil, errors.New("File does not exist")
+		return nil, errors.New("file does not exist")
 	}
 	defer file.Close()
 
 	b, err := ioutil.ReadAll(file)
+
+	if err != nil {
+		return nil, err
+	}
 
 	// Render the template
 	var poem savedPoem
@@ -76,6 +80,10 @@ func GeneratePoem(name string) ([]byte, error) {
 	log.Println(tempImage.Name())
 
 	err = imggenerator.GenerateImageFromHTML(tempFile, tempImage)
+
+	if err != nil {
+		return nil, err
+	}
 
 	bytes := imggenerator.PNGToBinary(tempImage)
 	return bytes, nil

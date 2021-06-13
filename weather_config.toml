@@ -8,4 +8,4 @@ StandardLocationID = ""
 StandardUnitType = "metric"
 
 # standard OpenWeatherMap language (if none other configured in request)
-StandardLanguage = "en"
+StandardLanguage = "de"

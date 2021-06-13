@@ -45,6 +45,7 @@
         <img src="{{ (index .Charts 3) }}">
         <hr>
         {{ range .SelectedForecasts }}
+            {{ if .WeatherTypes }}
             <div class="row">
                 <div class="column">
                     <object class="svg" type="image/svg+xml"
@@ -64,6 +65,7 @@
                     {{ .Clouds.OvercastPercentage }}% bewölkt
                 </div>
             </div>
+            {{ end }}
         {{ end }}
     </body>
 </html>

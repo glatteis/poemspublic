@@ -15,9 +15,9 @@ func GenerateImageFromHTML(htmlFile *os.File, imageFile *os.File) error {
 	_, err := exec.LookPath("xvfb-run")
 
 	if err == nil {
-		res = exec.Command("sh", "-c", "xvfb-run -a -s \"-screen 0 640x480x16\" wkhtmltoimage --width 384 --disable-smart-width "+htmlFile.Name()+" "+imageFile.Name())
+		res = exec.Command("sh", "-c", "xvfb-run -a -s \"-screen 0 640x480x16\" wkhtmltoimage --width 384 --disable-smart-width --enable-local-file-access "+htmlFile.Name()+" "+imageFile.Name())
 	} else {
-		res = exec.Command("wkhtmltoimage", "--width", "384", "--disable-smart-width", htmlFile.Name(), imageFile.Name())
+		res = exec.Command("wkhtmltoimage", "--width", "384", "--disable-smart-width", "--enable-local-file-access", htmlFile.Name(), imageFile.Name())
 
 	}
 

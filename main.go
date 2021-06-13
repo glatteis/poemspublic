@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/glatteis/poemspublic/newsgenerator"
 	"github.com/glatteis/poemspublic/poemgenerator"
 	"github.com/glatteis/poemspublic/weathergenerator"
 	"github.com/patrickmn/go-cache"
@@ -101,6 +102,37 @@ func getPoem(w http.ResponseWriter, r *http.Request) {
 	w.Write(data)
 }
 
+func getNews(w http.ResponseWriter, r *http.Request) {
+	fromByte, lengthByte, err := getParams(r)
+	if err != nil {
+		w.WriteHeader(400)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	r.ParseForm()
+	time := r.FormValue("time")
+
+	if time == "" {
+		w.WriteHeader(404)
+		w.Write([]byte("time empty"))
+		return
+	}
+
+	name := time
+
+	data, err := getBase64(name, fromByte, lengthByte, func() ([]byte, error) {
+		return newsgenerator.GenerateNews()
+	})
+	if err != nil {
+		w.WriteHeader(400)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	w.Write(data)
+}
+
 func getName(w http.ResponseWriter, r *http.Request) {
 	poemList, err := ioutil.ReadDir("data/")
 	if err != nil {
@@ -136,7 +168,6 @@ func getWeather(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write(data)
-
 }
 
 func main() {
@@ -147,5 +178,6 @@ func main() {
 	http.HandleFunc("/name", getName)
 	http.HandleFunc("/poem", getPoem)
 	http.HandleFunc("/weather", getWeather)
+	http.HandleFunc("/news", getNews)
 	http.ListenAndServe(":"+strconv.Itoa(*portPtr), nil)
 }
